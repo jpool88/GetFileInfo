@@ -25,37 +25,37 @@ namespace UpdateFileInfo
                 MessageBox.Show("Input file loctation cannot be empty", "Error!");
                 return;
             }                
-
+            
             if (!Directory.Exists(txtInputFileLocation.Text))
             {
                 MessageBox.Show("Input file directory not found", "Error!");
                 return;
             }
-
+            
             if (txtOutputFileLocation.Text == "")
             {
                 MessageBox.Show("Output file cannot be empty", "Error!");
                 return;
             }
-
+            
             if (!Directory.Exists(txtOutputFileLocation.Text))
                 CreateOutputDirectory(txtOutputFileLocation.Text);
-
+            
             if (txtDataFileName.Text == "")
             {
                 MessageBox.Show("Data file name cannot be empty", "Error!");
                 return;
             }
-
+            
             if (!File.Exists(txtDataFileName.Text))
             {
                 MessageBox.Show("Data file could not be found", "Error!");
                 return;
             } 
-
+            
             var fileNames = GetFileNames(txtDataFileName.Text);
             CopyAndRenameFiles(fileNames);
-
+            
             MessageBox.Show("Process Complete", "Process Complete");
         }
 
@@ -85,13 +85,17 @@ namespace UpdateFileInfo
 
         private void btnBrowse3_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            var result = folderBrowserDialog.ShowDialog();
-
-            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                txtDataFileName.Text = folderBrowserDialog.SelectedPath;
-                btn1.Enabled = true;
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    txtDataFileName.Text = openFileDialog.FileName;
+                }
             }
         }
 
