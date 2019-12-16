@@ -46,9 +46,6 @@ namespace GetFileInfo
         {
             var outputFile = $"{txtOutLocation.Text}\\FileInfo.csv";
 
-            if (File.Exists(outputFile) != false)
-                File.Delete(outputFile);
-
             string[] files = Directory.GetFiles(txtInfolder.Text);
             List<string> lines = new List<string>();
             Parallel.ForEach(files, file =>
